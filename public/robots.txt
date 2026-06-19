@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /keystatic
+
+Sitemap: https://jgmusicproduction.com/sitemap-index.xml

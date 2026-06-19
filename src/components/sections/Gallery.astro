@@ -1,0 +1,76 @@
+---
+import { GALLERY } from "@/lib/data";
+import SectionHeading from "@/components/SectionHeading.astro";
+import { X } from "@lucide/astro";
+---
+
+<section id="galeria" class="bg-carbon py-20 md:py-28" aria-label="Galería">
+  <div class="container-site">
+    <SectionHeading
+      eyebrow="Galería"
+      title="Nuestros eventos hablan por nosotros"
+    />
+
+    <!-- Masonry con CSS columns -->
+    <div class="columns-1 gap-5 sm:columns-2 lg:columns-3 [&>figure]:mb-5">
+      {GALLERY.map((g, i) => (
+        <figure
+          class="group relative cursor-zoom-in overflow-hidden rounded-2xl break-inside-avoid"
+          data-aos="zoom-in"
+          data-aos-delay={(i % 3) * 80}
+        >
+          <button
+            class="gallery-item block w-full"
+            data-src={g.src}
+            data-alt={g.alt}
+            aria-label={`Ampliar imagen: ${g.alt}`}
+          >
+            <img
+              src={g.src}
+              alt={g.alt}
+              class:list={["w-full object-cover transition-transform duration-500 group-hover:scale-105", g.tall ? "aspect-[3/4]" : "aspect-[4/3]"]}
+              loading="lazy"
+              decoding="async"
+            />
+            <span class="absolute inset-0 flex items-end bg-gradient-to-t from-noir/85 via-transparent to-transparent p-5 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+              <span class="text-xs font-display font-semibold uppercase tracking-[0.18em] text-gold">{g.alt}</span>
+            </span>
+          </button>
+        </figure>
+      ))}
+    </div>
+  </div>
+
+  <!-- Lightbox -->
+  <dialog
+    id="lightbox"
+    class="m-auto max-h-[92dvh] w-[min(94vw,1100px)] rounded-2xl border border-ivory/10 bg-noir p-0 backdrop:bg-noir/90 backdrop:backdrop-blur-sm"
+  >
+    <button
+      id="lightbox-close"
+      class="absolute right-3 top-3 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-noir/80 text-ivory transition-colors hover:text-gold"
+      aria-label="Cerrar imagen"
+    >
+      <X class="h-5 w-5" />
+    </button>
+    <img id="lightbox-img" src="" alt="" class="max-h-[92dvh] w-full rounded-2xl object-contain" />
+  </dialog>
+</section>
+
+<script>
+  const dialog = document.getElementById("lightbox") as HTMLDialogElement;
+  const img = document.getElementById("lightbox-img") as HTMLImageElement;
+
+  document.querySelectorAll<HTMLElement>(".gallery-item").forEach((btn) =>
+    btn.addEventListener("click", () => {
+      img.src = btn.dataset.src ?? "";
+      img.alt = btn.dataset.alt ?? "";
+      dialog.showModal();
+    })
+  );
+
+  document.getElementById("lightbox-close")!.addEventListener("click", () => dialog.close());
+  dialog.addEventListener("click", (e) => {
+    if (e.target === dialog) dialog.close();
+  });
+</script>

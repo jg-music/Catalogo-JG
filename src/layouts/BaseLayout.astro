@@ -1,0 +1,97 @@
+---
+// ═══════════════════════════════════════════════════
+// src/layouts/BaseLayout.astro — SEO + OG + Fuentes + AOS
+// ═══════════════════════════════════════════════════
+import "@/styles/global.css";
+import "aos/dist/aos.css";
+import { SITE } from "@/lib/site";
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+}
+
+const {
+  title = `${SITE.name} | Producción de Eventos Premium`,
+  description = SITE.description,
+  image = "/images/og-cover.jpg",
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site ?? SITE.url).href;
+const ogImage = new URL(image, Astro.site ?? SITE.url).href;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  name: SITE.name,
+  description,
+  url: SITE.url,
+  email: SITE.email,
+  address: { "@type": "PostalAddress", addressLocality: SITE.city },
+  sameAs: Object.values(SITE.social),
+  priceRange: "$$",
+};
+---
+
+<!doctype html>
+<html lang="es" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- SEO -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#0B0B0B" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content={SITE.locale} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <!-- Fuentes: Montserrat (display) + Poppins (body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Poppins:wght@300;400;500;600&display=swap"
+    />
+
+    <!-- JSON-LD -->
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+
+  <body class="min-h-dvh bg-noir text-ivory antialiased">
+    <slot />
+
+    <script>
+      import AOS from "aos";
+      AOS.init({
+        duration: 700,
+        easing: "ease-out-cubic",
+        once: true,
+        offset: 60,
+        disable: () =>
+          window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+      });
+    </script>
+  </body>
+</html>

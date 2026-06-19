@@ -1,0 +1,67 @@
+---
+import { getCollection } from "astro:content";
+import SectionHeading from "@/components/SectionHeading.astro";
+import { Star, Quote } from "@lucide/astro";
+
+const testimonials = (await getCollection("testimonials")).sort(
+  (a, b) => a.data.order - b.data.order
+);
+---
+
+<section class="py-20 md:py-28" aria-label="Testimonios">
+  <div class="container-site">
+    <SectionHeading
+      eyebrow="Testimonios"
+      title="Clientes que vivieron la experiencia"
+    />
+
+    <div
+      id="testimonial-track"
+      class="flex snap-x snap-mandatory gap-6 overflow-x-auto pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      data-aos="fade-up"
+    >
+      {testimonials.map((t) => (
+        <article class="w-[85%] shrink-0 snap-center rounded-3xl border border-ivory/8 bg-carbon p-7 sm:w-[55%] md:p-9 lg:w-[31%]">
+          <Quote class="h-8 w-8 text-gold/50" aria-hidden="true" />
+          <p class="mt-4 text-sm leading-relaxed text-ivory/85 md:text-[15px]">“{t.data.quote}”</p>
+          <div class="mt-6 flex items-center justify-between">
+            <div>
+              <p class="font-display text-sm font-bold">{t.data.name}</p>
+              <p class="text-xs text-muted">{t.data.event}</p>
+            </div>
+            <div class="flex gap-0.5" role="img" aria-label="5 de 5 estrellas">
+              {Array.from({ length: 5 }).map(() => (
+                <Star class="h-4 w-4 fill-gold text-gold" aria-hidden="true" />
+              ))}
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  // Slider automático con pausa al interactuar
+  const track = document.getElementById("testimonial-track")!;
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let paused = false;
+
+  if (!reduced) {
+    setInterval(() => {
+      if (paused) return;
+      const card = track.firstElementChild as HTMLElement | null;
+      if (!card) return;
+      const step = card.offsetWidth + 24;
+      const atEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 8;
+      track.scrollTo({ left: atEnd ? 0 : track.scrollLeft + step, behavior: "smooth" });
+    }, 5000);
+  }
+
+  ["pointerenter", "touchstart", "focusin"].forEach((ev) =>
+    track.addEventListener(ev, () => (paused = true), { passive: true })
+  );
+  ["pointerleave", "focusout"].forEach((ev) =>
+    track.addEventListener(ev, () => (paused = false))
+  );
+</script>

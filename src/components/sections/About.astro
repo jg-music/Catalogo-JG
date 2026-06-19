@@ -1,0 +1,59 @@
+---
+import { Target, Eye } from "@lucide/astro";
+---
+
+<section id="nosotros" class="py-20 md:py-28" aria-label="Quiénes somos">
+  <div class="container-site grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+    <!-- Imagen -->
+    <figure class="relative" data-aos="fade-right">
+      <div class="absolute -inset-3 rounded-3xl border border-gold/25" aria-hidden="true"></div>
+      <img
+        src="/images/about/evento-premium.jpg"
+        alt="Producción de un evento premium de JG Music Production"
+        class="relative aspect-[4/5] w-full rounded-3xl object-cover shadow-card md:aspect-[5/4] lg:aspect-[4/5]"
+        loading="lazy"
+        decoding="async"
+      />
+      <figcaption class="absolute bottom-5 left-5 rounded-full bg-noir/80 px-4 py-2 text-[11px] font-display font-semibold uppercase tracking-[0.2em] text-gold backdrop-blur">
+        Producción en vivo
+      </figcaption>
+    </figure>
+
+    <!-- Texto -->
+    <div data-aos="fade-left">
+      <p class="mb-3 font-display text-[11px] font-semibold uppercase tracking-[0.3em] text-gold md:text-xs">
+        Nosotros
+      </p>
+      <h2 class="hairline-gold font-display text-3xl font-extrabold leading-tight md:text-5xl">
+        Quiénes Somos
+      </h2>
+      <p class="mt-7 text-sm leading-relaxed text-ivory/80 md:text-base">
+        En JG Music Production convertimos cada evento en una experiencia de alto nivel,
+        combinando producción técnica, entretenimiento y una ejecución impecable.
+      </p>
+
+      <div class="mt-9 space-y-6">
+        <article class="flex gap-4">
+          <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gold/10 text-gold"><Target class="h-5 w-5" /></span>
+          <div>
+            <h3 class="font-display text-sm font-bold uppercase tracking-wider text-gold">Misión</h3>
+            <p class="mt-1.5 text-sm leading-relaxed text-muted">
+              Crear experiencias memorables mediante soluciones integrales de producción técnica,
+              entretenimiento y logística para todo tipo de eventos.
+            </p>
+          </div>
+        </article>
+        <article class="flex gap-4">
+          <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gold/10 text-gold"><Eye class="h-5 w-5" /></span>
+          <div>
+            <h3 class="font-display text-sm font-bold uppercase tracking-wider text-gold">Visión</h3>
+            <p class="mt-1.5 text-sm leading-relaxed text-muted">
+              Ser una empresa líder en producción de eventos reconocida por la innovación,
+              calidad y excelencia.
+            </p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>

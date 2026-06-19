@@ -1,0 +1,153 @@
+---
+import { HERO_SLIDES } from "@/lib/data";
+import { waLink } from "@/lib/site";
+import Button from "@/components/Button.astro";
+import { ChevronDown } from "@lucide/astro";
+---
+
+<!--
+  Móvil:   alto reducido (~62svh), imagen completa (object-contain), contenido compacto.
+  Desktop: fullscreen (h-dvh), imagen cover con parallax.
+-->
+<section
+  id="inicio"
+  class="relative h-[62svh] min-h-[480px] overflow-hidden md:h-dvh md:min-h-[640px]"
+  aria-label="Presentación"
+>
+  <!-- Slides -->
+  <div id="hero-slides" class="absolute inset-0">
+    {HERO_SLIDES.map((s, i) => (
+      <div
+        class:list={["hero-slide absolute inset-0 transition-opacity duration-[1200ms] ease-out", i === 0 ? "opacity-100" : "opacity-0"]}
+        data-index={i}
+      >
+        <img
+          src={s.image}
+          alt={s.title}
+          class="hero-img h-full w-full object-cover will-change-transform md:scale-110"
+          loading={i === 0 ? "eager" : "lazy"}
+          fetchpriority={i === 0 ? "high" : "auto"}
+          decoding="async"
+        />
+      </div>
+    ))}
+  </div>
+
+  <!-- Overlay oscuro -->
+  <div class="absolute inset-0 bg-gradient-to-b from-noir/80 via-noir/50 to-noir" aria-hidden="true"></div>
+
+  <!-- Contenido -->
+  <div class="container-site relative z-10 flex h-full flex-col items-center justify-center pb-12 text-center md:pb-0">
+    <p
+      id="hero-tag"
+      class="mb-3 rounded-full border border-gold/40 px-4 py-1 font-display text-[10px] font-semibold uppercase tracking-[0.3em] text-gold md:mb-5 md:px-5 md:py-1.5 md:text-xs"
+      data-aos="fade-down"
+    >
+      Bodas
+    </p>
+
+    <h1
+      class="max-w-4xl text-balance font-display text-[1.75rem] font-extrabold leading-[1.12] sm:text-4xl md:text-6xl md:leading-[1.08] lg:text-7xl"
+      data-aos="fade-up"
+      data-aos-delay="100"
+    >
+      Producimos Experiencias <span class="text-gold-gradient">Inolvidables</span>
+    </h1>
+
+    <p
+      class="mt-3 max-w-xl text-pretty text-[13px] font-light leading-relaxed text-ivory/85 md:mt-6 md:text-lg"
+      data-aos="fade-up"
+      data-aos-delay="200"
+    >
+      Sonido, iluminación, video y entretenimiento para eventos de alto nivel.
+    </p>
+
+    <div
+      class="mt-6 flex w-full max-w-xs flex-col gap-3 sm:w-auto sm:max-w-none sm:flex-row sm:gap-4 md:mt-9"
+      data-aos="fade-up"
+      data-aos-delay="300"
+    >
+      <Button href={waLink()} external class="md:px-8 md:py-4 md:text-base">Cotizar Evento</Button>
+      <Button href="#servicios" variant="outline" class="md:px-8 md:py-4 md:text-base">Ver Servicios</Button>
+    </div>
+
+    <!-- Indicadores -->
+    <div
+      id="hero-dots"
+      class="absolute bottom-5 flex gap-2.5 md:bottom-20"
+      role="tablist"
+      aria-label="Slides"
+    >
+      {HERO_SLIDES.map((s, i) => (
+        <button
+          class:list={["hero-dot h-1.5 rounded-full transition-all duration-500", i === 0 ? "w-8 bg-gold" : "w-3 bg-ivory/35 hover:bg-ivory/60"]}
+          data-index={i}
+          aria-label={`Ver slide: ${s.title}`}
+        ></button>
+      ))}
+    </div>
+
+    <!-- Flecha solo en desktop -->
+    <a
+      href="#beneficios"
+      class="absolute bottom-7 hidden text-ivory/60 transition-colors hover:text-gold motion-safe:animate-bounce md:block"
+      aria-label="Bajar a beneficios"
+    >
+      <ChevronDown class="h-7 w-7" />
+    </a>
+  </div>
+</section>
+
+<script>
+  // ── Slider + Parallax (parallax solo en desktop) ──
+  const slides = [...document.querySelectorAll<HTMLElement>(".hero-slide")];
+  const dots = [...document.querySelectorAll<HTMLElement>(".hero-dot")];
+  const tag = document.getElementById("hero-tag")!;
+  const labels = slides.map((s) => s.querySelector("img")?.alt ?? "");
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const isDesktop = window.matchMedia("(min-width: 768px)");
+
+  let current = 0;
+  let timer: ReturnType<typeof setInterval>;
+
+  const goTo = (i: number) => {
+    current = (i + slides.length) % slides.length;
+    slides.forEach((s, idx) => s.classList.toggle("opacity-100", idx === current));
+    slides.forEach((s, idx) => s.classList.toggle("opacity-0", idx !== current));
+    dots.forEach((d, idx) => {
+      d.classList.toggle("w-8", idx === current);
+      d.classList.toggle("bg-gold", idx === current);
+      d.classList.toggle("w-3", idx !== current);
+      d.classList.toggle("bg-ivory/35", idx !== current);
+    });
+    tag.textContent = labels[current] ?? "";
+  };
+
+  const play = () => {
+    clearInterval(timer);
+    if (!reduced) timer = setInterval(() => goTo(current + 1), 6000);
+  };
+
+  dots.forEach((d) =>
+    d.addEventListener("click", () => {
+      goTo(Number(d.dataset.index));
+      play();
+    })
+  );
+  play();
+
+  // Parallax sutil solo en pantallas md+ (en móvil la imagen va contenida, sin zoom)
+  const imgs = [...document.querySelectorAll<HTMLElement>(".hero-img")];
+  const onScroll = () => {
+    if (!isDesktop.matches) {
+      imgs.forEach((img) => (img.style.transform = ""));
+      return;
+    }
+    const y = Math.min(window.scrollY, window.innerHeight);
+    imgs.forEach((img) => (img.style.transform = `scale(1.1) translateY(${y * 0.18}px)`));
+  };
+  if (!reduced) {
+    window.addEventListener("scroll", onScroll, { passive: true });
+    isDesktop.addEventListener("change", onScroll);
+  }
+</script>

@@ -1,0 +1,70 @@
+---
+import { getCollection } from "astro:content";
+import SectionHeading from "@/components/SectionHeading.astro";
+import { waLink } from "@/lib/site";
+import {
+  Speaker, Lightbulb, MonitorPlay, Building2, Sparkles, Disc3,
+  PartyPopper, Music, Mic2, Zap, MessageCircle, type Icon,
+} from "@lucide/astro";
+
+const ICONS: Record<string, typeof Icon> = {
+  Speaker, Lightbulb, MonitorPlay, Building2, Sparkles,
+  Disc3, PartyPopper, Music, Mic2, Zap,
+};
+
+const services = (await getCollection("services")).sort(
+  (a, b) => a.data.order - b.data.order
+);
+---
+
+<section id="servicios" class="bg-carbon py-20 md:py-28" aria-label="Servicios">
+  <div class="container-site">
+    <SectionHeading
+      eyebrow="Servicios"
+      title="Producción integral para tu evento"
+      subtitle="Diez líneas de servicio que cubren cada detalle técnico y de entretenimiento, operadas por un solo equipo."
+    />
+
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      {services.map((s, i) => {
+        const IconCmp = ICONS[s.data.icon] ?? Sparkles;
+        return (
+          <article
+            class="group relative overflow-hidden rounded-2xl border border-ivory/8 bg-noir transition-all duration-300 hover:-translate-y-1.5 hover:border-gold/40 hover:shadow-gold"
+            data-aos="fade-up"
+            data-aos-delay={(i % 4) * 80}
+          >
+            <!-- Imagen -->
+            <div class="relative aspect-[16/10] overflow-hidden">
+              <img
+                src={s.data.image || "/images/services/placeholder.jpg"}
+                alt={s.data.title}
+                class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                loading="lazy"
+                decoding="async"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-noir via-noir/20 to-transparent" aria-hidden="true"></div>
+              <span class="absolute bottom-3 left-4 flex h-10 w-10 items-center justify-center rounded-xl bg-noir/80 text-gold backdrop-blur">
+                <IconCmp class="h-5 w-5" />
+              </span>
+            </div>
+
+            <!-- Contenido -->
+            <div class="p-5">
+              <h3 class="font-display text-base font-bold">{s.data.title}</h3>
+              <p class="mt-2 line-clamp-3 text-[13px] leading-relaxed text-muted">{s.data.description}</p>
+              <a
+                href={waLink(`Hola, quiero cotizar: ${s.data.title} 🎶`)}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="mt-4 inline-flex items-center gap-1.5 text-xs font-display font-semibold uppercase tracking-wider text-gold transition-colors hover:text-gold-light"
+              >
+                <MessageCircle class="h-4 w-4" /> Cotizar por WhatsApp
+              </a>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+  </div>
+</section>

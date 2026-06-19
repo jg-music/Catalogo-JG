@@ -1,0 +1,27 @@
+---
+import { BENEFITS } from "@/lib/data";
+import { Users, Cpu, Award, HeartHandshake, type Icon } from "@lucide/astro";
+
+const ICONS: Record<string, typeof Icon> = { Users, Cpu, Award, HeartHandshake };
+---
+
+<section id="beneficios" class="border-y border-ivory/5 bg-carbon py-16 md:py-24" aria-label="Beneficios">
+  <div class="container-site grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+    {BENEFITS.map((b, i) => {
+      const IconCmp = ICONS[b.icon] ?? Users;
+      return (
+        <article
+          class="group rounded-2xl border border-ivory/8 bg-noir/60 p-7 transition-all duration-300 hover:-translate-y-1.5 hover:border-gold/40 hover:shadow-gold"
+          data-aos="fade-up"
+          data-aos-delay={i * 100}
+        >
+          <span class="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-gold/10 text-gold transition-colors duration-300 group-hover:bg-gold group-hover:text-noir">
+            <IconCmp class="h-6 w-6" />
+          </span>
+          <h3 class="font-display text-base font-bold">{b.title}</h3>
+          <p class="mt-2.5 text-sm leading-relaxed text-muted">{b.text}</p>
+        </article>
+      );
+    })}
+  </div>
+</section>

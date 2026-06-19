@@ -1,0 +1,24 @@
+---
+import Button from "@/components/Button.astro";
+import { waLink } from "@/lib/site";
+---
+
+<section class="relative overflow-hidden bg-carbon py-24 md:py-32" aria-label="Llamado a la acción">
+  <!-- Resplandor dorado -->
+  <div
+    class="pointer-events-none absolute left-1/2 top-1/2 h-[480px] w-[720px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gold/10 blur-[140px]"
+    aria-hidden="true"
+  ></div>
+
+  <div class="container-site relative z-10 text-center" data-aos="zoom-in">
+    <h2 class="mx-auto max-w-3xl text-balance font-display text-3xl font-extrabold leading-tight md:text-6xl">
+      ¿Listo para tu <span class="text-gold-gradient">próximo evento</span>?
+    </h2>
+    <p class="mx-auto mt-5 max-w-xl text-sm leading-relaxed text-ivory/80 md:text-lg">
+      Escríbenos por WhatsApp y recibe una cotización personalizada.
+    </p>
+    <div class="mt-10">
+      <Button href={waLink()} external size="lg">Cotizar Evento</Button>
+    </div>
+  </div>
+</section>

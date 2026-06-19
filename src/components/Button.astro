@@ -1,0 +1,31 @@
+---
+// Botón reutilizable: variantes gold / outline
+interface Props {
+  href: string;
+  variant?: "gold" | "outline";
+  size?: "md" | "lg";
+  class?: string;
+  external?: boolean;
+}
+const { href, variant = "gold", size = "md", class: className = "", external = false } = Astro.props;
+
+const base =
+  "inline-flex items-center justify-center gap-2 rounded-full font-display font-semibold tracking-wide uppercase transition-all duration-300 focus-visible:outline-gold";
+const variants = {
+  gold: "bg-gold text-noir hover:bg-gold-light hover:shadow-gold hover:-translate-y-0.5",
+  outline:
+    "border border-ivory/30 text-ivory hover:border-gold hover:text-gold hover:-translate-y-0.5",
+};
+const sizes = {
+  md: "px-6 py-3 text-xs md:text-sm",
+  lg: "px-8 py-4 text-sm md:text-base",
+};
+---
+
+<a
+  href={href}
+  class:list={[base, variants[variant], sizes[size], className]}
+  {...external ? { target: "_blank", rel: "noopener noreferrer" } : {}}
+>
+  <slot />
+</a>
