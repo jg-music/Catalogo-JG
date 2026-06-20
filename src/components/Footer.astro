@@ -28,12 +28,15 @@ const socials = [
   <div class="container-site grid gap-10 py-14 md:grid-cols-3 md:py-20">
     <!-- Marca -->
     <div>
-      <a href="#inicio" class="flex items-center gap-2.5" aria-label={`${SITE.name} — Inicio`}>
-        <span class="flex h-11 w-11 items-center justify-center rounded-xl bg-noir font-display text-lg font-extrabold text-gold ring-1 ring-gold/40">JG</span>
-        <span class="font-display text-sm font-bold uppercase tracking-[0.18em]">
-          Music <span class="text-gold">Production</span>
-        </span>
-      </a>
+      <a href="#inicio" class="flex items-center" aria-label={`${SITE.name} — Inicio`}>
+  <img
+    src="/images/logo.png"
+    alt="JG Music Production"
+    class="h-14 w-auto mix-blend-screen"
+    width="56"
+    height="56"
+  />
+</a>
       <p class="mt-5 max-w-xs text-sm leading-relaxed text-muted">
         {SITE.description}
       </p>
