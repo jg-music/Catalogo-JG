@@ -2,16 +2,13 @@
 import { defineConfig } from "astro/config";
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
-import keystatic from "@keystatic/astro";
-import vercel from "@astrojs/vercel";
 import tailwindcss from "@tailwindcss/vite";
 
 // https://astro.build/config
 export default defineConfig({
   site: "https://jgmusicproduction.com",
   output: "static",
-  adapter: vercel(),
-  integrations: [react(), sitemap(), keystatic()],
+  integrations: [react(), sitemap()],
   vite: {
     plugins: [tailwindcss()],
   },
