@@ -15,7 +15,7 @@ export const SITE = {
   city: "Barranquilla, Colombia",
   social: {
     instagram: "https://www.instagram.com/jgmusicproduction",
-    facebook: "https://www.facebook.com/share/1CtjAstEBw/?mibextid=wwXIfr",
+    facebook: "https://www.facebook.com/profile.php?id=100070776054121",
   },
 } as const;
 

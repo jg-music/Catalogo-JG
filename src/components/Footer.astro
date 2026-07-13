@@ -28,15 +28,9 @@ const socials = [
   <div class="container-site grid gap-10 py-14 md:grid-cols-3 md:py-20">
     <!-- Marca -->
     <div>
-      <a href="#inicio" class="flex items-center" aria-label={`${SITE.name} — Inicio`}>
-  <img
-    src="/images/logo.png"
-    alt="JG Music Production"
-    class="h-14 w-auto mix-blend-screen"
-    width="56"
-    height="56"
-  />
-</a>
+      <a href="#inicio" class="inline-flex" aria-label={`${SITE.name} — Inicio`}>
+        <img src="/images/logo.png" alt="JG Music Production" class="h-24 w-auto object-contain" width="1080" height="1080" loading="lazy" />
+      </a>
       <p class="mt-5 max-w-xs text-sm leading-relaxed text-muted">
         {SITE.description}
       </p>

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # JG Music Production — Landing Premium
 
 Astro 5 · Tailwind CSS 4 · TypeScript · Keystatic CMS · Vercel
@@ -78,6 +77,3 @@ src/
 keystatic.config.ts  Esquema del CMS
 public/              robots.txt, favicon, imágenes
 ```
-=======
-# Catalogo-JG
->>>>>>> 7943f90dd1a9a417b42c2b8afab70970be877a41

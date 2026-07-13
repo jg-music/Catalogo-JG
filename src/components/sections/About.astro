@@ -1,5 +1,5 @@
 ---
-import { Target, Eye } from "@lucide/astro";
+import { Target, Eye, Truck } from "@lucide/astro";
 ---
 
 <section id="nosotros" class="py-20 md:py-28" aria-label="Quiénes somos">
@@ -14,9 +14,6 @@ import { Target, Eye } from "@lucide/astro";
         loading="lazy"
         decoding="async"
       />
-      <figcaption class="absolute bottom-5 left-5 rounded-full bg-noir/80 px-4 py-2 text-[11px] font-display font-semibold uppercase tracking-[0.2em] text-gold backdrop-blur">
-        Producción en vivo
-      </figcaption>
     </figure>
 
     <!-- Texto -->
@@ -50,6 +47,16 @@ import { Target, Eye } from "@lucide/astro";
             <p class="mt-1.5 text-sm leading-relaxed text-muted">
               Ser una empresa líder en producción de eventos reconocida por la innovación,
               calidad y excelencia.
+            </p>
+          </div>
+        </article>
+        <article class="flex gap-4">
+          <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gold/10 text-gold"><Truck class="h-5 w-5" /></span>
+          <div>
+            <h3 class="font-display text-sm font-bold uppercase tracking-wider text-gold">Transporte propio</h3>
+            <p class="mt-1.5 text-sm leading-relaxed text-muted">
+              Contamos con transporte propio para garantizar una logística eficiente, cumplir
+              los tiempos de entrega y ofrecer una experiencia segura y puntual en cada evento.
             </p>
           </div>
         </article>
